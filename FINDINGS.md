@@ -1,18 +1,10 @@
+# Vulnerability Findings — Alex & Sam
 
-
-# Vulnerability Findings — Sola, Mariella Janine & Torreno, Lerrica Jeremy
-
-There are **6** security bugs planted in `app/main.py`. Fill one row per bug.
-
-| # | OWASP 2025                                     | Where                     | Attacker Abuse                         | Fix                                  |
-| - | ---------------------------------------------- | ------------------------- | -------------------------------------- | ------------------------------------ |
-| 1 | A03 – Injection                                | `/login`                  | Uses SQL input to bypass login.        | Use parameterized queries.           |
-| 2 | A02 – Cryptographic Failures                   | DB & `/login`             | Steals plaintext passwords.            | Hash passwords with PBKDF2 and salt. |
-| 3 | A01 – Broken Access Control                    | `/notes/{id}`             | Changes ID to view others' notes.      | Check note ownership.                |
-| 4 | A05 – Security Misconfiguration                | Exception handler         | Causes errors to reveal stack traces.  | Return generic error messages.       |
-| 5 | A01 – Broken Access Control                    | `/admin/users`            | Bypasses the admin check.              | Fix the authorization check.         |
-| 6 | A07 – Identification & Authentication Failures | `current_user` / `/login` | Guesses user IDs to impersonate users. | Use signed authentication tokens.    |
-
-## Reflection (3–4 sentences)
-
-SQL Injection would likely cause the most damage in a real application. An attacker could bypass authentication and access or modify sensitive database information. It could potentially expose many users' accounts and private data. Therefore, preventing SQL Injection is critical for protecting the entire application.
+| # | OWASP Code & Name                                     | Where (Route / Line)          | How an Attacker Abuses It                                                                | Your Fix (1 Line)                                                                     |
+| - | ----------------------------------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| 1 | A05:2025 – Injection                                  | `/login`                      | Injects SQL commands through the username field to manipulate database queries.          | Use parameterized SQL queries instead of f-strings.                                   |
+| 2 | A04:2025 – Cryptographic Failures                     | Database seed and `/register` | Obtains users' plaintext passwords if the database is compromised.                       | Hash passwords using PBKDF2 with a unique, securely generated salt.                   |
+| 3 | A01:2025 – Broken Access Control                      | `/notes/{note_id}`            | Accesses other users' private notes by changing the note ID.                             | Verify note ownership before returning the requested note.                            |
+| 4 | A02:2025 – Security Misconfiguration                  | Global exception handler      | Triggers errors to expose internal paths, implementation details, and stack traces.      | Return generic error messages without exposing stack traces.                          |
+| 5 | A10:2025 – Exceptional Conditions                     | `/admin/users`                | Bypasses admin authorization because exceptions are swallowed by a `try...except` block. | Remove the exception-swallowing block and deny unauthorized requests.                 |
+| 6 | A07:2025 – Identification and Authentication Failures | `current_user` and `/login`   | Guesses sequential user IDs used as tokens to impersonate other users.                   | Use cryptographically signed, expiring authentication tokens instead of raw user IDs. |

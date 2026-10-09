@@ -1,4 +1,4 @@
-# Vulnerability Findings — Alex & Sam
+# Vulnerability Findings — Sola, Mariellam Janine & Torreno, Lerrica Jeremy
 
 | # | OWASP Code & Name                                     | Where (Route / Line)          | How an Attacker Abuses It                                                                | Your Fix (1 Line)                                                                     |
 | - | ----------------------------------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |

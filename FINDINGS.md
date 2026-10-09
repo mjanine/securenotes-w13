@@ -1,15 +1,10 @@
-# Vulnerability Findings — <your name> & <partner name>
+# Vulnerability Findings — Alex & Sam
 
-There are **6** security bugs planted in `app/main.py`. Fill one row per bug.
-
-| # | OWASP 2025 code & name | Where (route / line) | How an attacker abuses it | Your fix (1 line) |
-|---|------------------------|----------------------|---------------------------|-------------------|
-| 1 |   z                     |                      |                           |                   |
-| 2 |                        |                      |                           |                   |
-| 3 |                        |                      |                           |                   |
-| 4 |                        |                      |                           |                   |
-| 5 |                        |                      |                           |                   |
-| 6 |                        |                      |                           |                   |
-
-## Reflection (3–4 sentences)
-Which bug would do the most damage in a real app, and why?
+| # | OWASP Code & Name                                     | Where (Route / Line)          | How an Attacker Abuses It                                                                | Your Fix (1 Line)                                                                     |
+| - | ----------------------------------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| 1 | A05:2025 – Injection                                  | `/login`                      | Injects SQL commands through the username field to manipulate database queries.          | Use parameterized SQL queries instead of f-strings.                                   |
+| 2 | A04:2025 – Cryptographic Failures                     | Database seed and `/register` | Obtains users' plaintext passwords if the database is compromised.                       | Hash passwords using PBKDF2 with a unique, securely generated salt.                   |
+| 3 | A01:2025 – Broken Access Control                      | `/notes/{note_id}`            | Accesses other users' private notes by changing the note ID.                             | Verify note ownership before returning the requested note.                            |
+| 4 | A02:2025 – Security Misconfiguration                  | Global exception handler      | Triggers errors to expose internal paths, implementation details, and stack traces.      | Return generic error messages without exposing stack traces.                          |
+| 5 | A10:2025 – Exceptional Conditions                     | `/admin/users`                | Bypasses admin authorization because exceptions are swallowed by a `try...except` block. | Remove the exception-swallowing block and deny unauthorized requests.                 |
+| 6 | A07:2025 – Identification and Authentication Failures | `current_user` and `/login`   | Guesses sequential user IDs used as tokens to impersonate other users.                   | Use cryptographically signed, expiring authentication tokens instead of raw user IDs. |
